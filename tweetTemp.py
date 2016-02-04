@@ -19,14 +19,20 @@ def getDateTimeString():
 def tweetTemperature(temp):
 	dateTime = getDateTimeString()
 
-	tweet = dateTime + " Temperature is " + temp + 'F'
+	tweet = "RPi - " + dateTime + " Office temp: " + temp + 'F'
 
 	# Tweet temperature
 	print 'initializing Twitter API'
-	api = twitter.Api(consumer_key = '4zaWW67mmvqFUgtXeBDSzTmzK',
-					  consumer_secret = 'QxBCXzgidWb5JvPfx3gmFhKSJpz2HPkjxgUSqvEatIxWALzZXa',
-					  access_token_key = '4861195187-49Fca2M8tq3zqQqrflRXgkOBXvr4mtLMysgXYXD',
-					  access_token_secret = 'WUVdcSK9ibXyudtXPaYznfKI0HTEb6IkvXrdASHel0bB3')
+	apiKeysFile = open('apiKeys.txt', 'r')
+	consumer_key = apiKeysFile.readline().rstrip('\n')
+	consumer_secret = apiKeysFile.readline().rstrip('\n')
+	access_token_key = apiKeysFile.readline().rstrip('\n')
+	access_token_secret = apiKeysFile.readline().rstrip('\n')
+	
+	api = twitter.Api(consumer_key = consumer_key,
+		consumer_secret = consumer_secret,
+		access_token_key = access_token_key,
+		access_token_secret = access_token_secret)
 
 	# If the connection is successful, tweet the temperature
 	if (api.VerifyCredentials().id):
